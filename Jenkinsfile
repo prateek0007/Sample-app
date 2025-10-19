@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "prateek0007/sample-app"
+        DOCKER_IMAGE = "prateekmall/sample-app"
     }
 
     stages {
@@ -14,7 +14,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t prateekmall/sample-app:latest .'
+                sh 'docker build -t $DOCKER_IMAGE:latest .'
             }
         }
 
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh '''
-                        echo $PASS | docker login -u prateekmall --password-stdin
+                        echo $PASS | docker login -u $USER --password-stdin
                         docker push $DOCKER_IMAGE:latest
                     '''
                 }
@@ -45,4 +45,3 @@ pipeline {
         }
     }
 }
-
