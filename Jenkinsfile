@@ -14,7 +14,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:latest .'
+                sh 'docker build -t prateekmall/sample-app:latest .'
             }
         }
 
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh '''
-                        echo $PASS | docker login -u $USER --password-stdin
+                        echo $PASS | docker login -u prateekmall --password-stdin
                         docker push $DOCKER_IMAGE:latest
                     '''
                 }
